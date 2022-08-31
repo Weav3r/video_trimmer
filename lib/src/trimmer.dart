@@ -222,8 +222,16 @@ class Trimmer {
       _outputFormatString = outputFormat.toString();
     }
 
-    String _trimLengthCommand =
-        ' -ss $startPoint -i "$_videoPath" -t ${endPoint - startPoint} -avoid_negative_ts make_zero ';
+    //Mine
+    debugPrint('@@@@ ${endPoint - startPoint}');
+    
+    String _trimLengthCommand = '';
+        if(outputFormat == FileFormat.gif && endPoint - startPoint == 500) {
+          // It is a gif
+          _trimLengthCommand = ' -ss $startPoint -i "$_videoPath" -t ${endPoint - startPoint}';
+        } else {
+          _trimLengthCommand = ' -ss $startPoint -i "$_videoPath" -t ${endPoint - startPoint} -avoid_negative_ts make_zero ';
+        }
 
     if (ffmpegCommand == null) {
       _command = '$_trimLengthCommand -c:a copy ';
